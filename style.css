@@ -4,11 +4,14 @@ body {
     margin: 0;
     padding: 0;
 }
-
+body > h2{
+        text-align: left;
+    margin: 20px 35%;
+}
 h1{
     text-align: center;
     margin: 0 35%;
-    font-size: 3rem;
+    font-size: 2rem;
     font-weight: 600;
 }
 
@@ -74,4 +77,8 @@ button{
     width: 250px;
     background-color: deepskyblue;  
     color: black;  
+}
+
+#infoHeader{
+    text-align: center;
 }

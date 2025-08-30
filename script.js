@@ -8,17 +8,6 @@ function computerChoice(){
     return 'scissors';
 }
 
-function yourChoice(){
-    let yourChoice;
-    while(true){
-        yourChoice = prompt('Rock, Paper or Scissors?').toLowerCase();
-        if(yourChoice === 'rock' || yourChoice === 'paper' || yourChoice === 'scissors'){
-            return yourChoice;
-        }
-        alert('Invalid choice. Please try again');
-    }
-}
-
 function oneRound(yourChoice, computerChoice){
     console.log('You chose: ' + yourChoice);
     console.log('Computer chose: ' + computerChoice);
@@ -58,6 +47,7 @@ function oneRound(yourChoice, computerChoice){
 function playGame(){
     let yourScore = 0;
     let computerScore = 0;
+    let currentRound = 0;
     let rounds;
 
     while(true){
@@ -70,31 +60,44 @@ function playGame(){
         alert('Invalid input. Please enter a valid number (1-10)');
     }
 
-    for(let i = 0; i < rounds; i++){
-        console.log('------- Round ' + (i + 1) + ' -------');
-        let yourSelection = yourChoice();
-        let computerSelection = computerChoice();
-        const roundResult = oneRound(yourSelection, computerSelection);
+    return function(yourChoice){
+        if(currentRound >= rounds){
+            console.log('------- Final result -------');
+            if(yourScore > computerScore){
+                console.log('You won');
+            }else if(yourScore < computerScore){
+                console.log('You lost');
+            }
+            console.log('It\'s a tie');
+            return;
+        }
 
+        console.log('------- Round ' + (currentRound + 1) + ' -------');
+        let computerSelection = computerChoice();
+        const roundResult = oneRound(yourChoice, computerSelection);
         if(roundResult === 1){
             yourScore++;
         }else if(roundResult === -1){
             computerScore++;
         }
         console.log('You: ' + yourScore + ' | Computer: ' + computerScore);
-    }
-
-    console.log('------- Final result -------');
-    if(yourScore > computerScore){
-        console.log('You won');
-    }else if(yourScore < computerScore){
-        console.log('You lost');
-    }else{
-        console.log('It\'s a tie');
-    }
-    
-
+        currentRound++;
+    }   
 }
 
+const buttons = document.querySelectorAll('#rock, #paper, #scissors');
+const newGameBtn = document.querySelector('#newGameBtn');
+const infoHeader = document.querySelector('#infoHeader');
+let playRound;
 
+newGameBtn.addEventListener('click', () => {
+    infoHeader.textContent = 'Choose Rock, Paper or Scissors';
+    playRound = playGame();
+});
+
+buttons.forEach(button => {
+    button.addEventListener('click', (e) => {
+        playRound(e.target.id);
+    });   
+});
 
